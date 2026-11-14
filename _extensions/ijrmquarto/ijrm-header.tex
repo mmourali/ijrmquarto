@@ -1,0 +1,367 @@
+% ijrm-header.tex (ijrmquarto 1.0.0)
+% Preamble for International Journal of Research in Marketing (IJRM) manuscripts. pdfLaTeX fonts: Times for the text,
+% tables, captions, and notes; Helvetica for any sans serif text.
+
+% ---- Fonts ----
+\usepackage{mathptmx}
+\usepackage[scaled=0.92]{helvet}
+
+% ---- Quarto 1.4 (pandoc before 3.2) ----
+% Those versions wrap \paragraph and \subparagraph in a way that titlesec
+% cannot read ("Argument of \paragraph has an extra }"). The original
+% commands are put back before titlesec is loaded; the heading formats below
+% define them anew.
+\makeatletter
+\@ifundefined{xxxParagraphStar}{%
+  \@ifundefined{oldparagraph}{}{\let\paragraph\oldparagraph}%
+  \@ifundefined{oldsubparagraph}{}{\let\subparagraph\oldsubparagraph}%
+}{}
+\makeatother
+
+% ---- Packages ----
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[bottom]{footmisc}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+
+% ---- Characters typed directly ----
+% pdfLaTeX has no glyphs of its own for Greek letters and for many signs that
+% are typed as characters (a Greek alpha, a minus sign, "less than or equal").
+% In the text, Greek letters are taken upright from the Symbol font, as they
+% appear in a Word file; in formulas they are the usual math letters. The
+% other signs are set in math mode. XeLaTeX and LuaLaTeX read all of these
+% characters without help, so the definitions apply to pdfLaTeX only.
+\usepackage{iftex}
+\usepackage{pifont}
+\ifPDFTeX
+\providecommand{\texorpdfstring}[2]{#1}
+\newcommand{\ijrmgreek}[3]{\texorpdfstring{\TextOrMath{\Pisymbol{psy}{#1}}{#2}}{#3}}
+\newcommand{\ijrmsign}[1]{\texorpdfstring{\ensuremath{#1}}{}}
+\DeclareUnicodeCharacter{03B1}{\ijrmgreek{97}{\alpha}{alpha}}
+\DeclareUnicodeCharacter{03B2}{\ijrmgreek{98}{\beta}{beta}}
+\DeclareUnicodeCharacter{03B3}{\ijrmgreek{103}{\gamma}{gamma}}
+\DeclareUnicodeCharacter{03B4}{\ijrmgreek{100}{\delta}{delta}}
+\DeclareUnicodeCharacter{03B5}{\ijrmgreek{101}{\varepsilon}{epsilon}}
+\DeclareUnicodeCharacter{03F5}{\ijrmgreek{101}{\epsilon}{epsilon}}
+\DeclareUnicodeCharacter{03B6}{\ijrmgreek{122}{\zeta}{zeta}}
+\DeclareUnicodeCharacter{03B7}{\ijrmgreek{104}{\eta}{eta}}
+\DeclareUnicodeCharacter{03B8}{\ijrmgreek{113}{\theta}{theta}}
+\DeclareUnicodeCharacter{03D1}{\ijrmgreek{74}{\vartheta}{theta}}
+\DeclareUnicodeCharacter{03B9}{\ijrmgreek{105}{\iota}{iota}}
+\DeclareUnicodeCharacter{03BA}{\ijrmgreek{107}{\kappa}{kappa}}
+\DeclareUnicodeCharacter{03BB}{\ijrmgreek{108}{\lambda}{lambda}}
+\DeclareUnicodeCharacter{03BC}{\ijrmgreek{109}{\mu}{mu}}
+\DeclareUnicodeCharacter{03BD}{\ijrmgreek{110}{\nu}{nu}}
+\DeclareUnicodeCharacter{03BE}{\ijrmgreek{120}{\xi}{xi}}
+\DeclareUnicodeCharacter{03BF}{\ijrmgreek{111}{o}{o}}
+\DeclareUnicodeCharacter{03C0}{\ijrmgreek{112}{\pi}{pi}}
+\DeclareUnicodeCharacter{03D6}{\ijrmgreek{118}{\varpi}{pi}}
+\DeclareUnicodeCharacter{03C1}{\ijrmgreek{114}{\rho}{rho}}
+\DeclareUnicodeCharacter{03C2}{\ijrmgreek{86}{\varsigma}{sigma}}
+\DeclareUnicodeCharacter{03C3}{\ijrmgreek{115}{\sigma}{sigma}}
+\DeclareUnicodeCharacter{03C4}{\ijrmgreek{116}{\tau}{tau}}
+\DeclareUnicodeCharacter{03C5}{\ijrmgreek{117}{\upsilon}{upsilon}}
+\DeclareUnicodeCharacter{03C6}{\ijrmgreek{106}{\varphi}{phi}}
+\DeclareUnicodeCharacter{03D5}{\ijrmgreek{102}{\phi}{phi}}
+\DeclareUnicodeCharacter{03C7}{\ijrmgreek{99}{\chi}{chi}}
+\DeclareUnicodeCharacter{03C8}{\ijrmgreek{121}{\psi}{psi}}
+\DeclareUnicodeCharacter{03C9}{\ijrmgreek{119}{\omega}{omega}}
+\DeclareUnicodeCharacter{0391}{\ijrmgreek{65}{\mathrm{A}}{A}}
+\DeclareUnicodeCharacter{0392}{\ijrmgreek{66}{\mathrm{B}}{B}}
+\DeclareUnicodeCharacter{0393}{\ijrmgreek{71}{\Gamma}{Gamma}}
+\DeclareUnicodeCharacter{0394}{\ijrmgreek{68}{\Delta}{Delta}}
+\DeclareUnicodeCharacter{2206}{\ijrmgreek{68}{\Delta}{Delta}}
+\DeclareUnicodeCharacter{0395}{\ijrmgreek{69}{\mathrm{E}}{E}}
+\DeclareUnicodeCharacter{0396}{\ijrmgreek{90}{\mathrm{Z}}{Z}}
+\DeclareUnicodeCharacter{0397}{\ijrmgreek{72}{\mathrm{H}}{H}}
+\DeclareUnicodeCharacter{0398}{\ijrmgreek{81}{\Theta}{Theta}}
+\DeclareUnicodeCharacter{0399}{\ijrmgreek{73}{\mathrm{I}}{I}}
+\DeclareUnicodeCharacter{039A}{\ijrmgreek{75}{\mathrm{K}}{K}}
+\DeclareUnicodeCharacter{039B}{\ijrmgreek{76}{\Lambda}{Lambda}}
+\DeclareUnicodeCharacter{039C}{\ijrmgreek{77}{\mathrm{M}}{M}}
+\DeclareUnicodeCharacter{039D}{\ijrmgreek{78}{\mathrm{N}}{N}}
+\DeclareUnicodeCharacter{039E}{\ijrmgreek{88}{\Xi}{Xi}}
+\DeclareUnicodeCharacter{039F}{\ijrmgreek{79}{\mathrm{O}}{O}}
+\DeclareUnicodeCharacter{03A0}{\ijrmgreek{80}{\Pi}{Pi}}
+\DeclareUnicodeCharacter{03A1}{\ijrmgreek{82}{\mathrm{P}}{P}}
+\DeclareUnicodeCharacter{03A3}{\ijrmgreek{83}{\Sigma}{Sigma}}
+\DeclareUnicodeCharacter{03A4}{\ijrmgreek{84}{\mathrm{T}}{T}}
+\DeclareUnicodeCharacter{03A5}{\ijrmgreek{85}{\Upsilon}{Upsilon}}
+\DeclareUnicodeCharacter{03A6}{\ijrmgreek{70}{\Phi}{Phi}}
+\DeclareUnicodeCharacter{03A7}{\ijrmgreek{67}{\mathrm{X}}{X}}
+\DeclareUnicodeCharacter{03A8}{\ijrmgreek{89}{\Psi}{Psi}}
+\DeclareUnicodeCharacter{03A9}{\ijrmgreek{87}{\Omega}{Omega}}
+\DeclareUnicodeCharacter{2212}{\texorpdfstring{\ensuremath{-}}{-}}
+\DeclareUnicodeCharacter{2264}{\ijrmsign{\leq}}
+\DeclareUnicodeCharacter{2265}{\ijrmsign{\geq}}
+\DeclareUnicodeCharacter{2260}{\ijrmsign{\neq}}
+\DeclareUnicodeCharacter{2248}{\ijrmsign{\approx}}
+\DeclareUnicodeCharacter{2261}{\ijrmsign{\equiv}}
+\DeclareUnicodeCharacter{223C}{\ijrmsign{\sim}}
+\DeclareUnicodeCharacter{2245}{\ijrmsign{\cong}}
+\DeclareUnicodeCharacter{221D}{\ijrmsign{\propto}}
+\DeclareUnicodeCharacter{2213}{\ijrmsign{\mp}}
+\DeclareUnicodeCharacter{2217}{\ijrmsign{\ast}}
+\DeclareUnicodeCharacter{22C5}{\ijrmsign{\cdot}}
+\DeclareUnicodeCharacter{2219}{\ijrmsign{\bullet}}
+\DeclareUnicodeCharacter{221A}{\ijrmsign{\surd}}
+\DeclareUnicodeCharacter{221E}{\ijrmsign{\infty}}
+\DeclareUnicodeCharacter{2211}{\ijrmsign{\sum}}
+\DeclareUnicodeCharacter{220F}{\ijrmsign{\prod}}
+\DeclareUnicodeCharacter{222B}{\ijrmsign{\int}}
+\DeclareUnicodeCharacter{2202}{\ijrmsign{\partial}}
+\DeclareUnicodeCharacter{2207}{\ijrmsign{\nabla}}
+\DeclareUnicodeCharacter{2208}{\ijrmsign{\in}}
+\DeclareUnicodeCharacter{2209}{\ijrmsign{\notin}}
+\DeclareUnicodeCharacter{2282}{\ijrmsign{\subset}}
+\DeclareUnicodeCharacter{2286}{\ijrmsign{\subseteq}}
+\DeclareUnicodeCharacter{2229}{\ijrmsign{\cap}}
+\DeclareUnicodeCharacter{222A}{\ijrmsign{\cup}}
+\DeclareUnicodeCharacter{2205}{\ijrmsign{\emptyset}}
+\DeclareUnicodeCharacter{2200}{\ijrmsign{\forall}}
+\DeclareUnicodeCharacter{2203}{\ijrmsign{\exists}}
+\DeclareUnicodeCharacter{2227}{\ijrmsign{\wedge}}
+\DeclareUnicodeCharacter{2228}{\ijrmsign{\vee}}
+\DeclareUnicodeCharacter{2032}{\ijrmsign{{}^{\prime}}}
+\DeclareUnicodeCharacter{2033}{\ijrmsign{{}^{\prime\prime}}}
+\DeclareUnicodeCharacter{2194}{\ijrmsign{\leftrightarrow}}
+\DeclareUnicodeCharacter{21D2}{\ijrmsign{\Rightarrow}}
+\DeclareUnicodeCharacter{21D0}{\ijrmsign{\Leftarrow}}
+\DeclareUnicodeCharacter{21D4}{\ijrmsign{\Leftrightarrow}}
+\DeclareUnicodeCharacter{2197}{\ijrmsign{\nearrow}}
+\DeclareUnicodeCharacter{2198}{\ijrmsign{\searrow}}
+\DeclareUnicodeCharacter{25CF}{\ijrmsign{\bullet}}
+\DeclareUnicodeCharacter{25CB}{\ijrmsign{\circ}}
+\DeclareUnicodeCharacter{25A0}{\ijrmsign{\blacksquare}}
+\DeclareUnicodeCharacter{25A1}{\ijrmsign{\square}}
+\DeclareUnicodeCharacter{25B2}{\ijrmsign{\blacktriangle}}
+\DeclareUnicodeCharacter{25B3}{\ijrmsign{\triangle}}
+\DeclareUnicodeCharacter{25BC}{\ijrmsign{\blacktriangledown}}
+\DeclareUnicodeCharacter{2605}{\ijrmsign{\bigstar}}
+\DeclareUnicodeCharacter{2606}{\texorpdfstring{\ding{73}}{}}
+\DeclareUnicodeCharacter{2023}{\ijrmsign{\triangleright}}
+\DeclareUnicodeCharacter{2713}{\texorpdfstring{\ding{51}}{}}
+\DeclareUnicodeCharacter{2714}{\texorpdfstring{\ding{52}}{}}
+\DeclareUnicodeCharacter{2717}{\texorpdfstring{\ding{55}}{}}
+\DeclareUnicodeCharacter{2718}{\texorpdfstring{\ding{56}}{}}
+\DeclareUnicodeCharacter{2070}{\textsuperscript{0}}
+\DeclareUnicodeCharacter{2074}{\textsuperscript{4}}
+\DeclareUnicodeCharacter{2075}{\textsuperscript{5}}
+\DeclareUnicodeCharacter{2076}{\textsuperscript{6}}
+\DeclareUnicodeCharacter{2077}{\textsuperscript{7}}
+\DeclareUnicodeCharacter{2078}{\textsuperscript{8}}
+\DeclareUnicodeCharacter{2079}{\textsuperscript{9}}
+\DeclareUnicodeCharacter{207A}{\textsuperscript{+}}
+\DeclareUnicodeCharacter{207B}{\textsuperscript{\ensuremath{-}}}
+\DeclareUnicodeCharacter{2080}{\textsubscript{0}}
+\DeclareUnicodeCharacter{2081}{\textsubscript{1}}
+\DeclareUnicodeCharacter{2082}{\textsubscript{2}}
+\DeclareUnicodeCharacter{2083}{\textsubscript{3}}
+\DeclareUnicodeCharacter{2084}{\textsubscript{4}}
+\DeclareUnicodeCharacter{2085}{\textsubscript{5}}
+\DeclareUnicodeCharacter{2086}{\textsubscript{6}}
+\DeclareUnicodeCharacter{2087}{\textsubscript{7}}
+\DeclareUnicodeCharacter{2088}{\textsubscript{8}}
+\DeclareUnicodeCharacter{2089}{\textsubscript{9}}
+\DeclareUnicodeCharacter{2153}{\textsuperscript{1}/\textsubscript{3}}
+\DeclareUnicodeCharacter{2154}{\textsuperscript{2}/\textsubscript{3}}
+\DeclareUnicodeCharacter{2060}{\nobreak}
+\DeclareUnicodeCharacter{FB00}{ff}
+\DeclareUnicodeCharacter{FB01}{fi}
+\DeclareUnicodeCharacter{FB02}{fl}
+\DeclareUnicodeCharacter{FB03}{ffi}
+\DeclareUnicodeCharacter{FB04}{ffl}
+\fi
+
+% ---- Tables: single spaced, in the text font ----
+% \setstretch{1} rather than \singlespacing, which adds a blank line
+\AtBeginEnvironment{table}{\normalsize\setstretch{1}}
+\AtBeginEnvironment{table*}{\normalsize\setstretch{1}}
+\AtBeginEnvironment{longtable}{\normalsize\setstretch{1}}
+% Space above a table title, and less space between a table and its note
+\setlength{\LTpre}{18pt}
+\setlength{\LTpost}{6pt}
+% A table that fits on a page is not split: \ijrmkeep{height} starts a new
+% page when less than that height is left on the current page
+\newcommand{\ijrmkeep}[1]{%
+  \par\ifdim\pagetotal>0pt\ifdim\dimexpr\pagegoal-\pagetotal\relax<#1\relax\newpage\fi\fi}
+
+% A table or a figure without a label takes no number. LaTeX counts every
+% title, and pandoc 3.2 (in Quarto 1.5) counts every table, with or without
+% one; the counter is put back afterward, so that the numbers agree with the
+% Word file, and a title is printed without "Table 1" before it.
+\newcounter{ijrmsaved}
+\newcounter{ijrmplain}
+\newcommand{\ijrmplainbegin}[1]{\setcounter{ijrmsaved}{\value{#1}}\stepcounter{ijrmplain}%
+  \begingroup\ifdefined\captionsetup\captionsetup{format=plain,labelformat=empty,labelsep=none}\fi%
+  \expandafter\def\csname theH#1\endcsname{plain.\arabic{ijrmplain}}}
+\newcommand{\ijrmplainend}[1]{\endgroup\setcounter{#1}{\value{ijrmsaved}}}
+
+% ---- Captions ----
+% "Table 1. Title" above a table and "Fig. 1. Caption." below a figure,
+% flush left, with the label in bold
+\usepackage[labelsep=period,labelfont={bf},textfont={},font={rm,normalsize,singlespacing},
+            justification=raggedright,singlelinecheck=false,skip=6pt]{caption}
+\captionsetup[table]{position=above}
+\captionsetup[figure]{position=below}
+% The captions of the panels of a figure: "(a) Text", centered, in the type
+% of the text. (Quarto loads the subcaption package when a document has a
+% figure with panels.)
+\makeatletter
+\AtBeginDocument{\@ifpackageloaded{subcaption}{%
+  \captionsetup[sub]{font={rm,normalsize,singlespacing},labelfont={},textfont={},
+    labelformat=parens,labelsep=space,justification=centering,singlelinecheck=false,skip=4pt}}{}}
+\makeatother
+% The caption of a picture in a panel without a number: the same, without a letter
+\newcommand{\ijrmpanelcaption}[1]{{\captionsetup{font={rm,normalsize,singlespacing},labelfont={},
+    textfont={},justification=centering,singlelinecheck=false,skip=4pt}\caption*{#1}}}
+
+% ---- No underlining ----
+\renewcommand{\underline}[1]{#1}
+
+% ---- Notes under tables and figures ----
+% Written in the .qmd file as a ::: {.notes} div; the filter adds the label
+\newenvironment{ijrmnotes}{%
+  \par\nopagebreak[4]\vskip 4pt%
+  \begingroup\normalsize\setstretch{1}\raggedright
+  \setlength{\parindent}{0pt}\setlength{\parskip}{2pt}%
+}{%
+  \par\endgroup\vskip 6pt%
+}
+
+% ---- Hypotheses: indented, with 12 pt of space above and below ----
+% Written in the .qmd file as a ::: {.hypothesis} div; the filter sets the
+% label ("H1:") in bold. \addvspace keeps the space single between two
+% hypotheses in a row.
+\newenvironment{ijrmhypothesis}{%
+  \par\addvspace{12pt}\begingroup\setlength{\parindent}{0pt}%
+  \setlength{\leftskip}{0.5in}%
+}{%
+  \par\endgroup\addvspace{12pt}%
+}
+
+% ---- Centered text, unindented text, and "insert table here" lines ----
+\newenvironment{ijrmcentered}{\par\begingroup\centering\setlength{\parindent}{0pt}}{\par\endgroup}
+\newenvironment{ijrmflush}{\par\begingroup\setlength{\parindent}{0pt}}{\par\endgroup}
+\newenvironment{ijrmcallout}{%
+  \par\addvspace{0.5\baselineskip}\begingroup\centering\setlength{\parindent}{0pt}%
+}{%
+  \par\endgroup\addvspace{0.5\baselineskip}%
+}
+
+% ---- References: half-inch hanging indent ----
+\ifdefined\cslhangindent
+  \setlength{\cslhangindent}{0.5in}
+\else
+  \newlength{\cslhangindent}
+  \setlength{\cslhangindent}{0.5in}
+\fi
+\newenvironment{ijrmreferences}{\par\begingroup}{\par\endgroup}
+
+% ---- Statistics helpers ----
+\newcommand{\Mstat}[1]{\ensuremath{M = #1}}
+\newcommand{\SDstat}[1]{\ensuremath{\text{SD} = #1}}
+\newcommand{\pval}[1]{\ensuremath{p = #1}}
+\newcommand{\Fstat}[3]{\ensuremath{F(#1, #2) = #3}}
+\newcommand{\tstat}[2]{\ensuremath{t(#1) = #2}}
+\newcommand{\chisq}[2]{\ensuremath{\chi^2(#1) = #2}}
+\newcommand{\CI}[2]{95\% CI [#1, #2]}
+
+% ---- Front matter (the filter places the text in these environments) ----
+% Title and authors
+\newenvironment{ijrmtitle}{%
+  \par\begingroup\centering\bfseries\setlength{\parindent}{0pt}%
+}{\par\endgroup}
+\newenvironment{ijrmauthors}{%
+  \par\begingroup\centering\setlength{\parindent}{0pt}%
+}{\par\endgroup}
+% "Abstract": set like a section heading, without a number
+\newenvironment{ijrmfronthead}{%
+  \par\addvspace{\baselineskip}\begingroup\bfseries\setlength{\parindent}{0pt}%
+}{\par\endgroup}
+% Abstract, keywords, and the corresponding author: flush left
+\newenvironment{ijrmabstract}{\par\begingroup\setlength{\parindent}{0pt}}{\par\endgroup}
+\newenvironment{ijrmkeywords}{\par\begingroup\setlength{\parindent}{0pt}}{\par\endgroup}
+\newenvironment{ijrmfrontlines}{%
+  \par\addvspace{\baselineskip}\begingroup\setlength{\parindent}{0pt}%
+}{\par\endgroup}
+
+% ---- MANUSCRIPT SETUP (submission format) ----
+% Double spaced (linestretch), 12 pt, pages numbered. Sections are numbered
+% 1., 1.1., 1.1.1.; every heading stands on its own line.
+\newcommand{\ijrmsetupmanuscript}{%
+  \pagestyle{plain}%
+  \raggedright%
+  \setlength{\parindent}{0.5in}%
+  \titleformat{\section}%
+    {\normalfont\normalsize\bfseries\raggedright}{\thesection.}{0.5em}{}%
+  \titlespacing*{\section}{0pt}{\baselineskip}{0pt}%
+  \titleformat{\subsection}%
+    {\normalfont\normalsize\itshape\raggedright}{\thesubsection.}{0.5em}{}%
+  \titlespacing*{\subsection}{0pt}{0pt}{0pt}%
+  \titleformat{\subsubsection}%
+    {\normalfont\normalsize\itshape\raggedright}{\thesubsubsection.}{0.5em}{}%
+  \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}%
+  \titleformat{\paragraph}%
+    {\normalfont\normalsize\itshape\raggedright}{\theparagraph.}{0.5em}{}%
+  \titlespacing*{\paragraph}{0pt}{0pt}{0pt}%
+  \titleformat{\subparagraph}%
+    {\normalfont\normalsize\itshape\raggedright}{\thesubparagraph.}{0.5em}{}%
+  \titlespacing*{\subparagraph}{0pt}{0pt}{0pt}%
+}
+
+% ---- ARTICLE SETUP (publication-style preview; not for submission) ----
+\newcommand{\ijrmsetuparticle}{%
+  \pagestyle{fancy}%
+  \fancyhf{}%
+  \fancyfoot[C]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancypagestyle{plain}{%
+    \fancyhf{}%
+    \fancyfoot[C]{\small\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+  }%
+  \thispagestyle{plain}%
+  \setlength{\parindent}{1.5em}%
+  \titleformat{\section}%
+    {\normalfont\large\bfseries\raggedright}{}{0pt}{}%
+  \titlespacing*{\section}{0pt}{18pt}{6pt}%
+  \titleformat{\subsection}%
+    {\normalfont\normalsize\itshape\raggedright}{}{0pt}{}%
+  \titlespacing*{\subsection}{0pt}{14pt}{4pt}%
+  \titleformat{\subsubsection}%
+    {\normalfont\normalsize\itshape\raggedright}{}{0pt}{}%
+  \titlespacing*{\subsubsection}{0pt}{10pt}{3pt}%
+  \titleformat{\paragraph}%
+    {\normalfont\normalsize\itshape\raggedright}{}{0pt}{}%
+  \titlespacing*{\paragraph}{0pt}{10pt}{3pt}%
+  \titleformat{\subparagraph}%
+    {\normalfont\normalsize\itshape\raggedright}{}{0pt}{}%
+  \titlespacing*{\subparagraph}{0pt}{10pt}{3pt}%
+  \captionsetup{font=small}%
+}
+\newenvironment{ijrmarttitle}{%
+  \par\begingroup\fontsize{16}{19}\selectfont\bfseries\raggedright\setlength{\parindent}{0pt}%
+}{\par\endgroup\vskip 10pt}
+\newenvironment{ijrmartauthors}{%
+  \par\begingroup\centering\normalsize\bfseries\setlength{\parindent}{0pt}%
+}{\par\endgroup\vskip 6pt}
+\newenvironment{ijrmartabstract}{%
+  \par\noindent\textbf{Abstract}\par\vskip 4pt\begingroup\small\setlength{\parindent}{0pt}%
+}{\par\endgroup\vskip 8pt}
+\newenvironment{ijrmartkeywords}{%
+  \par\begingroup\small\setlength{\parindent}{0pt}%
+}{\par\endgroup\vskip 8pt}
+\newcommand{\ijrmartrule}{%
+  \vskip 0.8\baselineskip\noindent\rule{\textwidth}{0.4pt}\vskip 0.8\baselineskip}
+\makeatletter
+\newcommand{\ijrmauthornote}[1]{%
+  \begingroup\def\@makefnmark{}%
+  \footnotetext{\fontsize{8}{10}\selectfont\raggedright #1}\endgroup}
+\makeatother

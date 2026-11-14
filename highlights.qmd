@@ -1,0 +1,20 @@
+---
+# ======================================================================
+# IJRM Highlights (ijrmquarto 1.0.0)
+# ======================================================================
+# Highlights are submitted as a separate, editable file with the word
+# "highlights" in the file name (rendering this file writes
+# highlights.docx). Give 3 to 5 bullet points of at most 85 characters
+# each, including spaces. The extension warns when a limit is exceeded.
+# ======================================================================
+
+ijrm-mode: highlights
+
+highlights:
+  - Influencers build brand loyalty among millennial consumers.
+  - Trust in an influencer is associated with loyalty to endorsed brands.
+  - The association is stronger for familiar brands.
+
+format:
+  ijrmquarto-docx: default
+---
